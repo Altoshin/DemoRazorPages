@@ -1,0 +1,61 @@
+﻿@page
+@model DemoRazorPages.Pages.CustomersModel
+
+<div class="jumbotron">
+    <h3>Customers</h3>
+</div>
+
+<a asp-page="NewCustomer" class="btn btn-info">Add a customer</a>
+
+@if (Model.ShowMessage)
+{
+    <div class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @Model.Message
+    </div>
+}
+
+<form method="post">
+    @if (Model.HasCustomers)
+    {
+        <table class="table table-bordered table-striped table-hover" style="margin-top:10px;">
+            <thead>
+                <tr>
+                    <th>
+                        FirstName
+                    </th>
+                    <th>
+                        LastName
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Customers)
+                {
+                    <tr>
+                        <td>
+                            @item.FirstName
+                        </td>
+                        <td>
+                            @item.LastName
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-danger" asp-page-handler="delete" asp-route-id="@item.Id">Delete</button>
+                        </td>
+                        <td>
+                            <a class="btn btn-info" asp-page="./EditCustomer" asp-route-id="@item.Id">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-danger">No customers found</div>
+    }
+</form>
